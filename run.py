@@ -43,6 +43,55 @@ def main(mock: bool = False):
     else:
         raise RuntimeError('Input filepath must start with s3://')
 
+    params = {"acg_threshold": 0.1,
+              # algorithm lloyd
+              "artifact_threshold": 1949.48,
+              "batch_size": 6000,
+              "binning_depth": 5,
+              "ccg_threshold": 0.1,
+              "cluster_downsampling": 20,
+              "cluster_pcs": 64,
+              # copy_x True
+              "dmin": 66.002,
+              "dminx": 17.5,
+              "do_CAR": True,
+              "do_correction": False,
+              # init k-means++
+              "invert_sign": False,
+              "keep_good_only": False,
+              # max_channel_distance 36.835
+              # max_iter 300
+              "min_template_size": 18.9638,
+              # n_clusters 7
+              # n_components 3
+              # n_init 10
+              # n_iter 5
+              # n_oversamples 10
+              "n_pcs": 3,
+              "n_templates": 7,
+              "nblocks": 1,
+              "nearest_chans": 20,
+              "nearest_templates": 69,
+              "nskip": 25,
+              "nt": 61,
+              "nt0min": 6,
+              # power_iteration_normalizer auto
+              # random_state null
+              # run_arg_0
+              # run_arg_1
+              "scaleproc": 200,
+              "sig_interp": 20,
+              "skip_kilosort_preprocessing": False,
+              "template_sizes": 8,
+              "templates_from_data": True,
+              "Th_learned": 8,
+              "Th_single_ch": 6,
+              "Th_universal": 9,
+              # tol 0.0001
+              # verbose 0
+              "whitening_range": 32,
+              }
+
     torch.cuda.empty_cache()
     if mock:
         multisorting = mock_run_sorter(input_filepath)
@@ -52,7 +101,8 @@ def main(mock: bool = False):
             read_maxwell(f'/tmp/{os.path.basename(input_filepath)}'),
             folder=output_dir,
             remove_existing_folder=True,
-            verbose=True
+            verbose=True,
+            # **params
         )
     print(multisorting)
 
