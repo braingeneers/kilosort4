@@ -12,7 +12,7 @@ spec:
             - matchExpressions:
               - key: nvidia.com/gpu.product
                 operator: In
-                values:  # https://nrp.ai/documentation/userdocs/running/gpu-pods/
+                values:  # The following all have 24Gb+ RAM; adjust from the list here: https://nrp.ai/documentation/userdocs/running/gpu-pods/
                 - NVIDIA-A10
                 - NVIDIA-GeForce-RTX-3090
                 - NVIDIA-GeForce-RTX-4090
