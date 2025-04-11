@@ -41,7 +41,7 @@ def main(mock: bool = False):
         bucket, key = input_filepath[len('s3://'):].split('/', maxsplit=1)
         s3_client.download_file(bucket, key, f'/tmp/{os.path.basename(input_filepath)}')
     else:
-        raise RuntimeError('Input filepath must start with s3://')
+        raise RuntimeError(f'Input filepath must start with s3:// !  {input_filepath}')
 
     params = {"acg_threshold": 0.1,
               # algorithm lloyd
