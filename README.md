@@ -10,7 +10,7 @@ To launch this container as a basic Job, modify the kubernetes yaml file with yo
 
     kubectl apply -f run.yaml
 
-Given a Maxwell hdf5 s3 input path at "s3://braingeneers/ephys/{uuid}/original/data/{filename}.raw.hdf5", this will deposit kilosort4 results at: "s3://braingeneers/ephys/{uuid}/derived/{filename}.raw.hdf5.ks4.zip"
+For example, given a Maxwell hdf5 s3 input path at "s3://braingeneers/ephys/{uuid}/original/data/{filename}.raw.hdf5", this will deposit kilosort4 results at: "s3://braingeneers/ephys/{uuid}/derived/{filename}.raw.hdf5.ks4.zip"
 
 ### Building and Publishing the Container
 
