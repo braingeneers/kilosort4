@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kilosort4-job
+spec:
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: nvidia.com/gpu.product
+                operator: In
+                values:  # The following all have 24Gb+ RAM; adjust from the list here: https://nrp.ai/documentation/userdocs/running/gpu-pods/
+                - NVIDIA-A10
+                - NVIDIA-GeForce-RTX-3090
+                - NVIDIA-GeForce-RTX-4090
+                - NVIDIA-TITAN-RTX
+                - NVIDIA-RTX-A5000
+                - Quadro-RTX-6000
+                - Tesla-V100-SXM2-32GB
+                - NVIDIA-A40
+                - NVIDIA-L40
+      containers:
+        - name: kilosort4-container
+          image: quay.io/ucsc_cgl/kilosort4:12.4.1cudnn-runtime-ubuntu22.04
+          imagePullPolicy: Always
+          command: ["sh", "-c"]
+          args:
+            - >
+              python3 /tmp/run.py s3://braingeneers/ephys/2025-02-06-e-JLS-adhered-pharma/original/data/Trace_20250206_13_34_45_ch25836_DMSOctl.raw.h5
+          volumeMounts:
+            - name: prp-s3-credentials
+              mountPath: "/root/.aws/credentials"
+              subPath: "credentials"
+            - name: prp-s3-credentials
+              mountPath: "/root/.aws/.s3cfg"
+              subPath: ".s3cfg"
+            - name: kube-config
+              mountPath: "/root/.kube"
+          resources:
+            requests:
+              nvidia.com/gpu: 1
+              cpu: 1
+              memory: 32Gi
+            limits:
+              nvidia.com/gpu: 1
+              cpu: 12  # Throttle the container if using more CPU
+              memory: 64Gi  # Terminate the container if using more memory
+      volumes:
+        - name: prp-s3-credentials
+          secret:
+            secretName: prp-s3-credentials
+        - name: kube-config
+          secret:
+            secretName: kube-config
+      restartPolicy: Never
+  backoffLimit: 0  # k8 will reissue this Job this number of times if it fails (even if you kill it manually)
