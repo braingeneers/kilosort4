@@ -80,14 +80,14 @@ def process_with_kilosort(input_filepath: str, mock: bool = False) -> str:
     params = {"acg_threshold": 0.1,
               # algorithm lloyd
               "artifact_threshold": 1949.48,
-              "batch_size": 6000,
+              "batch_size": 1024,
               "binning_depth": 5,
               "ccg_threshold": 0.1,
               "cluster_downsampling": 20,
               "cluster_pcs": 64,
               # copy_x True
               "dmin": 66.002,
-              "dminx": 17.5,
+              "dminx": 36.835,
               "do_CAR": True,
               "do_correction": False,
               # init k-means++
